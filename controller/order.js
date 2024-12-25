@@ -41,7 +41,7 @@ const createOrder = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 }; 
-
+ 
 // Helper function to format date to a readable format
 const formatDate = (date) => {
   const options = {
@@ -165,7 +165,6 @@ const getorderbystatus = async (req, res) => {
       select:
         "name shopname price FinalPrice discountPercentage thumbnail availableTimes minorderquantity packof active ourprice",
     });
-
     res.status(200).json({ orders });
   } catch (error) {
     res.status(500).json({ error: error.message });

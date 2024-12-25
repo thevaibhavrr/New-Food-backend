@@ -48,6 +48,20 @@ const orderSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
       },
+      Isseen:{
+        type: String,
+        default: "false",
+      },
+      called:{
+        type: String,
+        default: "false",
+      },
+      deliveredBy: {
+        type: String,
+      },
+      profit: {
+        type: Number,
+      },   
     
 });
 

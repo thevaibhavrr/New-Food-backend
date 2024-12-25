@@ -22,14 +22,21 @@ const deleteService = async (req, res) => {
 
 const updateService = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { name, image, active } = req.body;
-        const service = await Service.findByIdAndUpdate(id, { name, image,active }, { new: true });
-        res.status(200).json(service);
+        const { id } = req.params; // Extract the service ID from the URL parameters.
+        const { name, image, active, poistionId } = req.body; // Extract updated fields from the request body.
+        // Update the service in the database and return the updated document.
+        const service = await Service.findByIdAndUpdate(
+            id,
+            { name, image, active, poistionId },
+            { new: true } // Ensures the returned document is the updated version.
+        );
+
+        res.status(200).json(service); // Respond with the updated service.
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message }); // Handle errors and respond with an error message.
     }
-}
+};
+
 const getAllServices = async (req, res) => {
     try {
         const services = await Service.find();
