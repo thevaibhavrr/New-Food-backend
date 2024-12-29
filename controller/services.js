@@ -128,6 +128,62 @@ const getproductsbyserviceid = async (req, res) => {
   };
   
 
+  const searchProducts = async (req, res) => {
+    try {
+        const { name, category } = req.query;
+
+        // Build search query based on parameters
+        let searchCriteria = { active: "true" }; // Default search for active products
+
+        // If both name and category are provided
+        if (name && category) {
+            const service = await Service.findOne({
+                name: { $regex: new RegExp('^' + category + '$', 'i') },
+            });
+
+            if (service) {
+                searchCriteria = {
+                    ...searchCriteria,
+                    name: { $regex: new RegExp(name, 'i') },
+                    category: service._id,
+                };
+            } else {
+                searchCriteria = {
+                    ...searchCriteria,
+                    name: { $regex: new RegExp(name, 'i') },
+                };
+            }
+        }
+        // If only name is provided
+        else if (name) {
+            searchCriteria = {
+                ...searchCriteria,
+                name: { $regex: new RegExp(name, 'i') },
+            };
+        }
+        // If only category is provided
+        else if (category) {
+            const service = await Service.findOne({
+                name: { $regex: new RegExp('^' + category + '$', 'i') },
+            });
+
+            if (service) {
+                searchCriteria = { ...searchCriteria, category: service._id };
+            } else {
+                // If category doesn't exist, return products from all categories
+                searchCriteria = { ...searchCriteria };
+            }
+        }
+
+        const products = await Product.find(searchCriteria).populate("category");
+
+        res.status(200).json({ products, totalProducts: products.length });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
 module.exports = {
     createService,
     getAllServices,
@@ -139,5 +195,6 @@ module.exports = {
     deleteProduct,
     updateProduct,
     getProductById,
-    getservicebyid
+    getservicebyid,
+    searchProducts
 };
