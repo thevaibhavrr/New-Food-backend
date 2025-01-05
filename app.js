@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const serviceRoute = require("./routes/servrice");
 const Saller = require("./routes/sallerroute");
+const User = require("./routes/user");
 const database = require("./config/database");
 
 dotenv.config();
@@ -13,7 +14,7 @@ app.use(express.json());
 
 database();
 
-app.use("/api", serviceRoute, Saller);
+app.use("/api", serviceRoute, Saller,User);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
