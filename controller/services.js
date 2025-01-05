@@ -55,6 +55,17 @@ const getservicebyid = async (req, res) => {
     }
 };
 
+const searchServices = async (req, res) => {
+    try {
+        const { name } = req.params;
+        console.log(name);
+        const services = await Service.find({ name: { $regex: new RegExp(name, 'i') } });
+        res.status(200).json(services);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 // product
 
@@ -196,5 +207,6 @@ module.exports = {
     updateProduct,
     getProductById,
     getservicebyid,
-    searchProducts
+    searchProducts,
+    searchServices
 };

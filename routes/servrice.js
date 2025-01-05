@@ -9,6 +9,7 @@ service.post("/add-category", ServiceData.createService);
 service.delete("/delete-category/:id", ServiceData.deleteService);
 service.put("/update-category/:id", ServiceData.updateService);
 service.get("/get-single-category/:id", ServiceData.getservicebyid);
+service.get("/services/search/:name", ServiceData.searchServices);
 
 // product
 service.get("/get-products-by-service-id/:name", ServiceData.getproductsbyserviceid);
