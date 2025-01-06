@@ -4,7 +4,9 @@ const sendToken = require("../utils/userToken");
 
 const RegisterUser = async (req, res, next) => {
     // Check if the email already exists
-    const useremail = await User.findOne({ email: req.body.email });
+    const useremail = await User.findOne({ username: req.body.email });
+    console.log(useremail);
+    console.log(req.body);
     
     if (useremail) {
       sendToken(useremail, 200, res);

@@ -9,7 +9,7 @@ const sendToken = (user, statusCode, res) => {
         Date.now() + 1 * 24 * 60 * 60 * 1000 // 24 hours
       ),
       httpOnly: true,
-    };
+    };  
   
     // send response
     res.status(statusCode).cookie("token", token, options).json({
