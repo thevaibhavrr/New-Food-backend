@@ -18,7 +18,7 @@ service.delete("/delete-product/:id", ServiceData.deleteProduct);
 service.put("/update-product/:id", ServiceData.updateProduct);
 service.get("/get-single-product/:id", ServiceData.getProductById);
 service.get("/get-all-products", ServiceData.getAllProducts);
-service.get("/products/search", ServiceData.searchProducts);
+service.get("/products/search", ServiceData.getRelatedProducts);
 
 
 

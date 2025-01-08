@@ -22,7 +22,7 @@ const deleteService = async (req, res) => {
 
 const updateService = async (req, res) => {
     try {
-        const { id } = req.params; // Extract the service ID from the URL parameters.
+        const { id } = req.params;
         const { name, image, active, poistionId } = req.body; // Extract updated fields from the request body.
         // Update the service in the database and return the updated document.
         const service = await Service.findByIdAndUpdate(
@@ -58,7 +58,6 @@ const getservicebyid = async (req, res) => {
 const searchServices = async (req, res) => {
     try {
         const { name } = req.params;
-        console.log(name);
         const services = await Service.find({ name: { $regex: new RegExp(name, 'i') } });
         res.status(200).json(services);
     } catch (error) {
@@ -139,61 +138,23 @@ const getproductsbyserviceid = async (req, res) => {
   };
   
 
-  const searchProducts = async (req, res) => {
+  const getRelatedProducts = async (req, res) => {
     try {
-        const { name, category } = req.query;
+        const { word } = req.query;
 
-        // Build search query based on parameters
-        let searchCriteria = { active: "true" }; // Default search for active products
-
-        // If both name and category are provided
-        if (name && category) {
-            const service = await Service.findOne({
-                name: { $regex: new RegExp('^' + category + '$', 'i') },
-            });
-
-            if (service) {
-                searchCriteria = {
-                    ...searchCriteria,
-                    name: { $regex: new RegExp(name, 'i') },
-                    category: service._id,
-                };
-            } else {
-                searchCriteria = {
-                    ...searchCriteria,
-                    name: { $regex: new RegExp(name, 'i') },
-                };
-            }
-        }
-        // If only name is provided
-        else if (name) {
-            searchCriteria = {
-                ...searchCriteria,
-                name: { $regex: new RegExp(name, 'i') },
-            };
-        }
-        // If only category is provided
-        else if (category) {
-            const service = await Service.findOne({
-                name: { $regex: new RegExp('^' + category + '$', 'i') },
-            });
-
-            if (service) {
-                searchCriteria = { ...searchCriteria, category: service._id };
-            } else {
-                // If category doesn't exist, return products from all categories
-                searchCriteria = { ...searchCriteria };
-            }
+        if (!word) {
+            return res.status(400).json({ error: "Please provide a search word." });
         }
 
-        const products = await Product.find(searchCriteria).populate("category");
-
+        const products = await Product.find({
+            name: { $regex: word, $options: "i" }, // Case-insensitive search
+        }).populate("category");
         res.status(200).json({ products, totalProducts: products.length });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: error.message });
     }
 };
+
 
 module.exports = {
     createService,
@@ -207,6 +168,6 @@ module.exports = {
     updateProduct,
     getProductById,
     getservicebyid,
-    searchProducts,
+    getRelatedProducts,
     searchServices
 };
