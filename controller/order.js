@@ -24,6 +24,7 @@ const createOrder = async (req, res) => {
       "vaibhavrathorema@gmail.com",
       "Manish78690468@gmail.com",
       "Fooddeliveeyy1@gmail.com",
+      "vipinparasiya@gmail.com",
     ];
 
     // Send email to all recipients
