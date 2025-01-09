@@ -98,7 +98,7 @@ const updateProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
     try {
-        const products = await Product.find().limit(50).populate("category")
+        const products = await (await Product.find()).reverse().limit(50).populate("category")
         res.status(200).json({products , totalProducts:products.length});
     } catch (error) {
         res.status(500).json({ error: error.message });
