@@ -132,6 +132,19 @@ const getProductById = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+//   topsaller:{
+//     type:String,
+//     default:"false"
+//   }
+
+const gettopsaller = async (req, res) => {
+    try {
+        const products = await Product.find({ topsaller: "true" });
+        res.status(200).json({ products });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 
 const getproductsbyserviceid = async (req, res) => {
@@ -187,5 +200,6 @@ module.exports = {
     getProductById,
     getservicebyid,
     getRelatedProducts,
-    searchServices
+    searchServices,
+    gettopsaller
 };

@@ -19,6 +19,7 @@ service.put("/update-product/:id", ServiceData.updateProduct);
 service.get("/get-single-product/:id", ServiceData.getProductById);
 service.get("/get-all-products", ServiceData.getAllProducts);
 service.get("/products/search", ServiceData.getRelatedProducts);
+service.get("/gettopsaller", ServiceData.gettopsaller);
 
 
 
