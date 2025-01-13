@@ -161,7 +161,7 @@ const deleteOrderById = async (req, res) => {
 const getorderbystatus = async (req, res) => {
   try {
     const status = req.query.status || "Pending";
-    const orders = await Order.find({ status: status }).sort({ createdAt: -1 }).limit(100).populate({
+    const orders = await Order.find({ status: status }).sort({ createdAt: -1 }).limit(300).populate({
       path: "products.productId",
       select:
         "name shopname price FinalPrice discountPercentage thumbnail availableTimes minorderquantity packof active ourprice",

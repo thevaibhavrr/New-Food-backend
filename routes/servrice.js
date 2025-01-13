@@ -35,6 +35,7 @@ service.post("/create-order", OrderData.createOrder);
 service.get("/metrics", Admin.calculateMetrics);
 service.get("/today-report", Admin.getTodayReport);
 service.get("/overall-report", Admin.getOverallReport);
+service.get("/today-delivered-product-quantities", Admin.getTodayDeliveredProductQuantities);
  
 
 module.exports = service;

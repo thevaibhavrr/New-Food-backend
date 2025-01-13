@@ -68,15 +68,33 @@ const searchServices = async (req, res) => {
 
 // product
 
+// const createProduct = async (req, res) => {
+//     try {
+//         const product = new Product(req.body);
+//         await product.save();
+//         res.status(201).json(product);
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };
 const createProduct = async (req, res) => {
     try {
-        const product = new Product(req.body);
-        await product.save();
-        res.status(201).json(product);
+      const { shopPrices, price, shopname } = req.body;
+  
+      if (shopPrices && shopPrices.length > 0) {
+        req.body.price = shopPrices[0]?.price || price; // Default to the first shop price if provided
+      } else if (!price) {
+        return res.status(400).json({ error: "Price is required if no shop price is specified." });
+      }
+  
+      const product = new Product(req.body);
+      await product.save();
+      res.status(201).json(product);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
-};
+  };
+  
 const deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;
